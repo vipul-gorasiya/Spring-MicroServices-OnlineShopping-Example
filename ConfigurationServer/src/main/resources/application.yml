@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/vipul-gorasiya/DemoConfigRepo.git
+server:
+  port: 8088

@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: development
+  application:
+    name: config-demo-client
+  cloud:
+    config:
+      uri: http://localhost:8088
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
