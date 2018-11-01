@@ -4,3 +4,5 @@ spring:
       server:
         git:
           uri: https://github.com/vipul-gorasiya/Spring-MicroServices-OnlineShopping-Configuration
+server:
+  port: 5055
