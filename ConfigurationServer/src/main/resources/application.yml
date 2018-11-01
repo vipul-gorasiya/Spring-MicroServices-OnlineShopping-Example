@@ -3,6 +3,9 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/vipul-gorasiya/DemoConfigRepo.git
+          uri: https://github.com/vipul-gorasiya/Spring-MicroServices-OnlineShopping-Example.git
+          search-paths:
+          - 'configuration/*'
+            
 server:
-  port: 8088
+  port: 5055
