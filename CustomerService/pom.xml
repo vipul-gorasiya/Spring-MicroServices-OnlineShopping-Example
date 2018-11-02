@@ -76,9 +76,10 @@
 			<artifactId>modelmapper</artifactId>
 			<version>${modelMapper.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-netflix-eureka-client</artifactId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 	</dependencies>
 
