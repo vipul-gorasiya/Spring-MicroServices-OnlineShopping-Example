@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: development
+  application:
+    name: item-Service
+  cloud:
+    config:
+      uri: http://localhost:5055
+      

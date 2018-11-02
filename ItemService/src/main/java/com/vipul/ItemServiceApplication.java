@@ -11,10 +11,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableJpaRepositories
 @SpringBootApplication
-public class CustomerServiceApplication {
+public class ItemServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CustomerServiceApplication.class, args);
+		SpringApplication.run(ItemServiceApplication.class, args);
 	}
-
 }

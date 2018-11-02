@@ -25,7 +25,7 @@ public class DevelopmentConfiguration {
 	@Bean
 	public DataSource dataSource() throws SQLException {
 		DataSource dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName(databaseName)
-				.addScript("classpath:com/vipul/config/customer-schema-developement.sql").build();
+				.addScript("classpath:com/vipul/config/item-schema-developement.sql").build();
 		LOGGER.info("H2 database is running with metadata: {}", dataSource.getConnection().getMetaData().toString());
 		return dataSource;
 	}
