@@ -1,7 +1,9 @@
 package com.vipul.dto;
 
-public class CustomerDTO {
+import java.io.Serializable;
 
+public class CustomerDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String email;
 	private String firstName;
