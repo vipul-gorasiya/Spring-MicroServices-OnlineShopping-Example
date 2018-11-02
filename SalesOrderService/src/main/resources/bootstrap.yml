@@ -2,7 +2,7 @@ spring:
   profiles:
     active: development
   application:
-    name: Item-Service
+    name: SalesOrder-Service
   cloud:
     config:
       uri: http://localhost:5055

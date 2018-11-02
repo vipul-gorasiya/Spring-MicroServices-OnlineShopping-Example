@@ -15,46 +15,46 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.vipul.dto.ItemDTO;
-import com.vipul.service.ItemService;
+import com.vipul.dto.SalesOrderDTO;
+import com.vipul.service.SalesOrderService;
 
-@RequestMapping("/items")
+@RequestMapping("/orders")
 @RestControllerAdvice
 @RestController
-public class ItemResource {
+public class SalesOrderResource {
 
 	@Autowired
-	private ItemService itemService;
+	private SalesOrderService salesOrderService;
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/")
-	public List<ItemDTO> all() {
-		return itemService.all();
+	public List<SalesOrderDTO> all() {
+		return salesOrderService.all();
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/{itemName}")
-	public ItemDTO get(String itemName) {
-		return itemService.get(itemName);
+	@GetMapping("/{id}")
+	public SalesOrderDTO get(long id) {
+		return salesOrderService.get(id);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@PutMapping("/{itemName}")
-	public ItemDTO put(String itemName, ItemDTO itemDTO) {
-		itemDTO.setName(itemName);
-		return itemService.save(itemDTO);
+	@PutMapping("/{id}")
+	public SalesOrderDTO put(long id, SalesOrderDTO salesOrderDTO) {
+		salesOrderDTO.setId(id);
+		return salesOrderService.save(salesOrderDTO);
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(long id) {
-		itemService.delete(id);
+		salesOrderService.delete(id);
 	}
 
 	@PostMapping("/")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ItemDTO add(ItemDTO itemDTO) {
-		return itemService.save(itemDTO);
+	public SalesOrderDTO add(SalesOrderDTO salesOrderDTO) {
+		return salesOrderService.save(salesOrderDTO);
 	}
 
 	@ExceptionHandler(Exception.class)

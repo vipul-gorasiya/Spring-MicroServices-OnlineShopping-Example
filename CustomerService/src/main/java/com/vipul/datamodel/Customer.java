@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -14,10 +14,13 @@ public class Customer {
 	@GeneratedValue
 	private long id;
 
+	@NotNull
 	private String email;
 
+	@NotNull
 	private String firstName;
 
+	@NotNull
 	private String lastName;
 
 	public long getId() {
