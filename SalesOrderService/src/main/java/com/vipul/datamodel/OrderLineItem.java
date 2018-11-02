@@ -3,6 +3,8 @@ package com.vipul.datamodel;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -15,13 +17,14 @@ public class OrderLineItem {
 	private long id;
 
 	@NotNull
-	private long orderId;
-
-	@NotNull
 	private String itemName;
 
 	@NotNull
 	private long itemQuantity;
+
+	@ManyToOne
+	@JoinColumn(name = "order_id", referencedColumnName = "id")
+	private SalesOrder salesOrder;
 
 	public long getId() {
 		return id;
@@ -29,14 +32,6 @@ public class OrderLineItem {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public long getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(long orderId) {
-		this.orderId = orderId;
 	}
 
 	public String getItemName() {
@@ -54,4 +49,13 @@ public class OrderLineItem {
 	public void setItemQuantity(long itemQuantity) {
 		this.itemQuantity = itemQuantity;
 	}
+
+	public SalesOrder getSalesOrder() {
+		return salesOrder;
+	}
+
+	public void setSalesOrder(SalesOrder salesOrder) {
+		this.salesOrder = salesOrder;
+	}
+
 }

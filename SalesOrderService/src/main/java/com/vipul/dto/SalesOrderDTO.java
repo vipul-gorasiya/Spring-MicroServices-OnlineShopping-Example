@@ -1,16 +1,16 @@
 package com.vipul.dto;
 
-import java.sql.Timestamp;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
 public class SalesOrderDTO {
 
 	private long id;
-	private Timestamp orderDate;
+	private Date orderDate;
 	private long custId;
 	private String orderDesc;
 	private double totalPrice;
-	private Set<OrderLineItemDTO> orderLineItems;
+	private List<OrderLineItemDTO> orderLineItems;
 
 	public long getId() {
 		return id;
@@ -20,11 +20,11 @@ public class SalesOrderDTO {
 		this.id = id;
 	}
 
-	public Timestamp getOrderDate() {
+	public Date getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Timestamp orderDate) {
+	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 
@@ -52,11 +52,11 @@ public class SalesOrderDTO {
 		this.totalPrice = totalPrice;
 	}
 
-	public Set<OrderLineItemDTO> getOrderLineItems() {
+	public List<OrderLineItemDTO> getOrderLineItems() {
 		return orderLineItems;
 	}
 
-	public void setOrderLineItems(Set<OrderLineItemDTO> orderLineItems) {
+	public void setOrderLineItems(List<OrderLineItemDTO> orderLineItems) {
 		this.orderLineItems = orderLineItems;
 	}
 

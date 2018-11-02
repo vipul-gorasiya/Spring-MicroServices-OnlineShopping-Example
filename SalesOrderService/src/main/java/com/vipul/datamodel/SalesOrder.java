@@ -1,13 +1,12 @@
 package com.vipul.datamodel;
 
-import java.sql.Timestamp;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -21,7 +20,7 @@ public class SalesOrder {
 	private long id;
 
 	@NotNull
-	private Timestamp orderDate;
+	private Date orderDate;
 
 	@NotNull
 	private long custId;
@@ -30,9 +29,8 @@ public class SalesOrder {
 
 	private double totalPrice;
 
-	@OneToMany(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "id", referencedColumnName = "order_id", insertable = true, updatable = true)
-	private Set<OrderLineItem> orderLineItems;
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "salesOrder")
+	private List<OrderLineItem> orderLineItems;
 
 	public long getId() {
 		return id;
@@ -42,11 +40,11 @@ public class SalesOrder {
 		this.id = id;
 	}
 
-	public Timestamp getOrderDate() {
+	public Date getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Timestamp orderDate) {
+	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 
@@ -72,6 +70,15 @@ public class SalesOrder {
 
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public List<OrderLineItem> getOrderLineItems() {
+		return orderLineItems;
+	}
+
+	public void setOrderLineItems(List<OrderLineItem> orderLineItems) {
+		this.orderLineItems = orderLineItems;
+		this.orderLineItems.forEach(orderLineItem -> orderLineItem.setSalesOrder(this));
 	}
 
 }
