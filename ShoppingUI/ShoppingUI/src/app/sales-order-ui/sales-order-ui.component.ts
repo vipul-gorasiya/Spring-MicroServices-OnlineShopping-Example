@@ -29,7 +29,7 @@ export const SALESORDER_SERVICE: string = PROXY_SERVER + "/salesApi/orders/";
 })
 export class SalesOrderUIComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'orderDate', 'orderDesc', 'custId', 'count'];
+  displayedColumns: string[] = ['id', 'orderDesc', 'custId', 'count'];
   dataSource = [];
   constructor(private http: HttpClient, public dialog: MatDialog) { }
   ngOnInit() {
