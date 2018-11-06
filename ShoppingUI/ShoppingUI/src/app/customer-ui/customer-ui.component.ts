@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { PROXY_SERVER } from '../app.component';
 
 export class Customer {
   id?: number;
@@ -9,8 +10,8 @@ export class Customer {
   email?: string;
 }
 
-const CUSTOMER_SERVICE: string = "http://localhost:5555/customersApi/customers/";
-// const CUSTOMER_SERVICE : string = "http://localhost:5051/customers/";
+export const CUSTOMER_SERVICE: string = PROXY_SERVER + "/customersApi/customers/";
+
 @Component({
   selector: 'app-customer-ui',
   templateUrl: './customer-ui.component.html',
@@ -25,7 +26,7 @@ export class CustomerUIComponent implements OnInit {
     this.retrieveCustomers();
   }
 
-  retrieveCustomers(){
+  retrieveCustomers() {
     this.http.get<Customer[]>(CUSTOMER_SERVICE).subscribe(
       (data) => {
         console.log(data);
@@ -36,10 +37,10 @@ export class CustomerUIComponent implements OnInit {
       }
     );
   }
-  
+
   openDialog(): void {
     const dialogRef = this.dialog.open(CustomerDialog, {
-      width: '250px',
+      width: '400px',
       data: new Customer()
     });
 
@@ -65,12 +66,12 @@ export class CustomerDialog {
     this.dialogRef.close();
   }
   onOkClick(): void {
-    this.data.id=0;
+    this.data.id = 0;
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
     console.log(this.data);
-    this.http.post(CUSTOMER_SERVICE, JSON.stringify(this.data),httpOptions).subscribe(
+    this.http.post(CUSTOMER_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
       (data) => {
         console.log(data);
         this.dialogRef.close();

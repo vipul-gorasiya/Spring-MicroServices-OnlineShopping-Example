@@ -3,15 +3,15 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule, MatDialogModule, MatDialogRef, MatInputModule, MatButtonModule } from '@angular/material'
+import { MatTableModule, MatDialogModule, MatDialogRef, MatInputModule, MatButtonModule, MatSelectModule, MatListModule } from '@angular/material'
 import { HttpClientModule } from '@angular/common/http';
 import { UIHeaderComponent } from './uiheader/uiheader.component';
 import { CustomerUIComponent, CustomerDialog } from './customer-ui/customer-ui.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { WelcomeUIComponent } from './welcome-ui/welcome-ui.component';
-import { ItemUIComponent } from './item-ui/item-ui.component';
-import { SalesOrderUIComponent } from './sales-order-ui/sales-order-ui.component';
+import { ItemUIComponent, ItemDialog } from './item-ui/item-ui.component';
+import { SalesOrderUIComponent, SalesOrderDialog } from './sales-order-ui/sales-order-ui.component';
 
 @NgModule({
   declarations: [
@@ -21,21 +21,25 @@ import { SalesOrderUIComponent } from './sales-order-ui/sales-order-ui.component
     CustomerDialog,
     WelcomeUIComponent,
     ItemUIComponent,
-    SalesOrderUIComponent
+    ItemDialog,
+    SalesOrderUIComponent,
+    SalesOrderDialog
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatTableModule,
     HttpClientModule,
-    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
+    AppRoutingModule,
+    MatTableModule,
+    MatDialogModule,
+    MatSelectModule,
     MatButtonModule,
-    AppRoutingModule
+    MatInputModule,
+    MatListModule,
   ],
-  entryComponents:[CustomerDialog],
+  entryComponents:[CustomerDialog,ItemDialog,SalesOrderDialog],
   providers: [],
   bootstrap: [AppComponent]
 })

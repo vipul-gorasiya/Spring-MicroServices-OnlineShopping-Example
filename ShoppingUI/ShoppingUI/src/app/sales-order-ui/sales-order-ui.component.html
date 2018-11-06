@@ -1,3 +1,35 @@
-<p>
-  sales-order-ui works!
-</p>
+<div>
+  <button mat-raised-button (click)="openDialog()">Add Order</button>
+</div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> Id. </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="orderDate">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.date | date:"MM/dd/yy"}} </td>
+  </ng-container>
+
+   <ng-container matColumnDef="orderDesc">
+    <th mat-header-cell *matHeaderCellDef> Description </th>
+    <td mat-cell *matCellDef="let element"> {{element.orderDesc}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="custId">
+    <th mat-header-cell *matHeaderCellDef> Customer </th>
+    <td mat-cell *matCellDef="let element"> {{element.custId}} </td>
+  </ng-container>
+  
+  <ng-container matColumnDef="count">
+      <th mat-header-cell *matHeaderCellDef> Item Count </th>
+      <td mat-cell *matCellDef="let element"> {{element.orderLineItems.length}} </td>
+    </ng-container>
+  
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

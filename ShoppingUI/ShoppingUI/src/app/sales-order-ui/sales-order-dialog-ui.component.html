@@ -1,0 +1,54 @@
+<div class="form-container">
+  <div mat-dialog-content>
+    <h1 mat-dialog-title>Add Order</h1>
+    <div mat-dialog-content>
+      <p>Order Date</p>
+      <mat-form-field>
+        <input matInput [(ngModel)]="data.orderDate" disabled>
+      </mat-form-field>
+
+      <p>Description</p>
+      <mat-form-field>
+        <input matInput [(ngModel)]="data.orderDesc">
+      </mat-form-field>
+
+      <p>Price</p>
+      <mat-form-field>
+        <input matInput [(ngModel)]="data.price">
+      </mat-form-field>
+      <p>Customer</p>
+      <mat-form-field>
+        <mat-select placeholder="Select Customer" [(ngModel)]="data.custId">
+          <mat-option *ngFor="let customer of customerList" [value]="customer.id" >
+            {{customer.lastName}}, {{customer.firstName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-container">
+      <h2> Items</h2>
+      <div mat-dialog-content>
+        <p>Select Item</p>
+        <mat-form-field>
+          <mat-select placeholder="Select Item" [(ngModel)]="orderLineItem.itemName">
+            <mat-option *ngFor="let item of itemList" [value]="item.name">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p>Quantity</p>
+        <mat-form-field>
+          <input matInput [(ngModel)]="orderLineItem.itemQuantity">
+        </mat-form-field>
+        <button mat-button (click)="onAddItemClick()" cdkFocusInitial>Add Item</button>
+        <mat-list role="list">
+          <mat-list-item *ngFor="let orderLineItem of data.orderLineItems" role="listitem">{{orderLineItem.itemQuantity}} : {{orderLineItem.itemName}}</mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      <button mat-button (click)="onOkClick()" cdkFocusInitial>Ok</button>
+    </div>
+  </div>
+</div>
