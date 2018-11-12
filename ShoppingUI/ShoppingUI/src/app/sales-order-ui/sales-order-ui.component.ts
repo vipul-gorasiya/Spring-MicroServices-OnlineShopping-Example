@@ -116,6 +116,7 @@ export class SalesOrderUIComponent implements OnInit {
         console.log(data);
         this.data = new SalesOrder();
         this.displayDialog = false;
+        this.retrieveSalesOrders();
       },
       (error) => {
         console.log(error);
