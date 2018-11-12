@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/components/common/menuitem';
 
 export const PROXY_SERVER = "http://localhost:5555"
 
@@ -10,8 +11,28 @@ export const PROXY_SERVER = "http://localhost:5555"
 export class AppComponent implements OnInit {
   title = 'ShoppingUI';
   constructor() { }
+  menuItems: MenuItem[];
 
   ngOnInit() {
     console.log("Init: AppComponent");
+    this.menuItems = [
+      {
+        label: 'Home',
+        icon: 'fa fa-fw fa-check',
+        routerLink: '/welcome'
+      },
+      {
+        label: 'Customers',
+        routerLink: '/customers'
+      },
+      {
+        label: 'Items',
+        routerLink: '/items'
+      },
+      {
+        label: 'Sales Orders',
+        routerLink: '/sales'
+      }
+    ];
   }
 }

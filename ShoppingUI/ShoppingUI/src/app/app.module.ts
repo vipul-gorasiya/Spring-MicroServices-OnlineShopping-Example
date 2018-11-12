@@ -16,6 +16,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { PanelModule } from 'primeng/panel';
+import { MegaMenuModule } from 'primeng/megamenu';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     DialogModule,
     ButtonModule,
     AutoCompleteModule,
+    PanelModule,
+    MegaMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

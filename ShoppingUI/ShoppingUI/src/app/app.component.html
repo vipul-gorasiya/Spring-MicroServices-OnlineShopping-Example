@@ -1,10 +1,5 @@
 <div class="mat-app-background basic-container">
-   <app-uiheader></app-uiheader>
-   <nav>
-    <a mat-button routerLink="/welcome">Home</a>
-    <a mat-button routerLink="/customers">Customers</a>
-    <a mat-button routerLink="/items">Items</a>
-    <a mat-button routerLink="/sales">Sales Order</a>
-  </nav>
+  <app-uiheader></app-uiheader>
+  <p-megaMenu [model]="menuItems"></p-megaMenu>
   <router-outlet></router-outlet>
 </div>

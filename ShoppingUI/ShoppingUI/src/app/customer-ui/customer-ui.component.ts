@@ -7,6 +7,9 @@ export class Customer {
   firstName?: string;
   lastName?: string;
   email?: string;
+  get name(): string{
+    return this.lastName+", "+this.firstName;
+  }
 }
 
 export const CUSTOMER_SERVICE: string = PROXY_SERVER + "/customersApi/customers/";
@@ -59,6 +62,7 @@ export class CustomerUIComponent implements OnInit {
         console.log(data);
         this.displayDialog = false;
         data = new Customer();
+        this.retrieveCustomers();
       },
       (error) => {
         console.log(error);

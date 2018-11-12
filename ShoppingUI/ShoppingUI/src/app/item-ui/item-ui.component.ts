@@ -6,7 +6,7 @@ export class Item {
   id?: number;
   name?: string;
   description?: string;
-  price?: Number;
+  price?: number;
 }
 
 export const ITEM_SERVICE: string = PROXY_SERVER + "/itemsAPi/items/";

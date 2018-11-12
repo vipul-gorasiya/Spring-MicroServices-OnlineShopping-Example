@@ -6,17 +6,19 @@ import { Item, ITEM_SERVICE } from '../item-ui/item-ui.component';
 
 export class SalesOrder {
   id?: number;
-  orderDate?: Date = new Date();
   orderDesc?: string;
-  totalPrice?: number;
+  totalPrice?: number = 0;
   orderLineItems: OrderLineItem[] = [];
+  customer: Customer;
+  orderDate: Date = new Date();
   custId: number;
 }
 
 export class OrderLineItem {
   id?: number;
-  itemName?: string;
   itemQuantity?: number;
+  item?: Item;
+  itemName?: string;
 }
 
 export const SALESORDER_SERVICE: string = PROXY_SERVER + "/salesApi/orders/";
@@ -30,9 +32,7 @@ export class SalesOrderUIComponent implements OnInit {
 
   displayedColumns: any[] = [
     { field: 'id', header: 'Order Id' },
-    { field: 'orderDesc', header: 'Description' },
-    { field: 'custId', header: 'Customer Id' },
-    { field: 'count', header: 'Count of Items' }];
+    { field: 'orderDesc', header: 'Description' }];
   orders = [];
   displayDialog: boolean = false;
 
@@ -41,11 +41,18 @@ export class SalesOrderUIComponent implements OnInit {
   orderLineItem: OrderLineItem = new OrderLineItem();
   itemList: Item[];
   data: SalesOrder = new SalesOrder();
+  lineItemColumns: any[] = [
+    { field: 'itemName', header: 'Item Name' },
+    { field: 'itemQuantity', header: 'Quantity' }];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.retrieveSalesOrders();
+  }
+
+  searchCustomer(event) {
+    console.log(event.query)
     this.http.get<Customer[]>(CUSTOMER_SERVICE).subscribe(
       (data) => {
         console.log(data);
@@ -55,6 +62,9 @@ export class SalesOrderUIComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+  searchItem(event) {
+    console.log(event.query)
     this.http.get<Item[]>(ITEM_SERVICE).subscribe(
       (data) => {
         console.log(data);
@@ -65,7 +75,6 @@ export class SalesOrderUIComponent implements OnInit {
       }
     );
   }
-
   retrieveSalesOrders() {
     this.http.get<SalesOrder[]>(SALESORDER_SERVICE).subscribe(
       (data) => {
@@ -83,9 +92,13 @@ export class SalesOrderUIComponent implements OnInit {
   }
   onNoClick(): void {
     this.displayDialog = false;
+    this.data = new SalesOrder();
   }
   onAddItemClick(): void {
     console.log(this.orderLineItem);
+    this.data.totalPrice = this.data.totalPrice + (this.orderLineItem.itemQuantity * this.orderLineItem.item.price);
+    this.orderLineItem.itemName=this.orderLineItem.item.name;
+    this.data.custId = this.data.customer.id;
     this.data.orderLineItems.push(this.orderLineItem);
     this.orderLineItem = new OrderLineItem();
   }

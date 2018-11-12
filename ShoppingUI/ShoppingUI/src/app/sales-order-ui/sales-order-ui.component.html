@@ -1,37 +1,71 @@
 <div>
-    <button type="button" pButton (click)="openDialog()" label="Add Order"></button>
-  </div>
-  <p-table [columns]="displayedColumns" [value]="orders">
-    <ng-template pTemplate="header" let-columns>
-      <tr>
-        <th *ngFor="let col of columns">
-          {{col.header}}
-        </th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr>
-        <td *ngFor="let col of columns">
-          {{rowData[col.field]}}
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-  <p-dialog header="Add Customer" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200"
-    [minY]="70" [maximizable]="true" [baseZIndex]="10000">
-    <span>
-      <h3 class="first">Date</h3>
-      <input id="input" type="text" size="30" pInputText [(ngModel)]="data.orderDate">
-      <h3 class="first">Description</h3>
-      <input id="input" type="text" size="30" pInputText [(ngModel)]="data.orderDesc">
-      <h3 class="first">Price</h3>
-      <input id="input" type="text" size="30" pInputText [(ngModel)]="data.price">
-      <h3 class="first">Customer</h3>
-      <p-autoComplete [(ngModel)]="data.custId" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
-      <input id="input" type="text" size="30" pInputText [(ngModel)]="">
-    </span>
-    <p-footer>
-      <button type="button" pButton icon="pi pi-check" (click)="onOkClick()" label="Add"></button>
-      <button type="button" pButton icon="pi pi-close" (click)="onNoClick()" label="Cancel" class="ui-button-secondary"></button>
-    </p-footer>
-  </p-dialog>
+  <button type="button" pButton (click)="openDialog()" label="Add Order"></button>
+</div>
+<p-table [columns]="displayedColumns" [value]="orders">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns">
+        {{col.header}}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns">
+        {{rowData[col.field]}}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-dialog header="Add Customer" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="550" [minWidth]="200"
+  [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+  <span>
+    <h3 class="first">Description</h3>
+    <input id="input" type="text" size="30" pInputText [(ngModel)]="data.orderDesc">
+    <h3 class="first">Customer</h3>
+    <p-autoComplete [(ngModel)]="data.customer" [suggestions]="customerList" (completeMethod)="searchCustomer($event)" field="firstName">
+      <ng-template let-customer pTemplate="item">
+        <div class="ui-helper-clearfix">
+          <!--<div style="font-size:18px;float:right;margin:10px 10px 0 0">-->
+          <div style="font-size:12px;">{{customer.lastName}} , {{customer.firstName}}</div>
+        </div>
+      </ng-template>
+    </p-autoComplete>
+    <p-panel header="Line Items">
+      <h3 class="first">Item</h3>
+      <p-autoComplete [(ngModel)]="orderLineItem.item" [suggestions]="itemList" (completeMethod)="searchItem($event)" field="name">
+          <ng-template let-item pTemplate="item">
+              <div class="ui-helper-clearfix">
+                <!--<div style="font-size:18px;float:right;margin:10px 10px 0 0">-->
+                <div style="font-size:12px;">{{item.name}}</div>
+              </div>
+            </ng-template>
+      </p-autoComplete>
+      <h3 class="first">Quantity</h3>
+      <input id="input" type="text" size="30" pInputText [(ngModel)]="orderLineItem.itemQuantity">
+      <button type="button" pButton icon="pi pi-check" (click)="onAddItemClick()" label="Add Item"></button>
+      <p-table [columns]="lineItemColumns" [value]="data.orderLineItems">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-panel>
+    <h3 class="first">Price</h3>
+    <input id="disabled-input" type="text" pInputText [disabled]="disabled" [(ngModel)]="data.totalPrice" />
+  </span>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="onOkClick()" label="Add"></button>
+    <button type="button" pButton icon="pi pi-close" (click)="onNoClick()" label="Cancel" class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
