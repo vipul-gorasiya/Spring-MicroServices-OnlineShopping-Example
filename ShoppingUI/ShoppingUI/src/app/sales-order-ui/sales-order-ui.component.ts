@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { PROXY_SERVER } from '../app.component';
 import { Customer, CUSTOMER_SERVICE } from '../customer-ui/customer-ui.component';
 import { Item, ITEM_SERVICE } from '../item-ui/item-ui.component';
@@ -29,54 +28,24 @@ export const SALESORDER_SERVICE: string = PROXY_SERVER + "/salesApi/orders/";
 })
 export class SalesOrderUIComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'orderDesc', 'custId', 'count'];
-  dataSource = [];
-  constructor(private http: HttpClient, public dialog: MatDialog) { }
-  ngOnInit() {
-    this.retrieveSalesOrders();
-  }
+  displayedColumns: any[] = [
+    { field: 'id', header: 'Order Id' },
+    { field: 'orderDesc', header: 'Description' },
+    { field: 'custId', header: 'Customer Id' },
+    { field: 'count', header: 'Count of Items' }];
+  orders = [];
+  displayDialog: boolean = false;
 
-  retrieveSalesOrders() {
-    this.http.get<SalesOrder[]>(SALESORDER_SERVICE).subscribe(
-      (data) => {
-        console.log(data);
-        this.dataSource = data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(SalesOrderDialog, {
-      width: '400px',
-      data: new SalesOrder()
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.retrieveSalesOrders();
-    });
-  }
-}
-
-@Component({
-  selector: 'dialog-sales-order',
-  templateUrl: './sales-order-dialog-ui.component.html',
-  styleUrls: ['./sales-order-ui.component.css']
-})
-export class SalesOrderDialog implements OnInit {
-
+  // Variables for Modal window
   customerList: Customer[];
   orderLineItem: OrderLineItem = new OrderLineItem();
   itemList: Item[];
+  data: SalesOrder = new SalesOrder();
 
-  constructor(
-    public dialogRef: MatDialogRef<SalesOrderDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: SalesOrder,
-    private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
+
   ngOnInit() {
+    this.retrieveSalesOrders();
     this.http.get<Customer[]>(CUSTOMER_SERVICE).subscribe(
       (data) => {
         console.log(data);
@@ -96,8 +65,24 @@ export class SalesOrderDialog implements OnInit {
       }
     );
   }
+
+  retrieveSalesOrders() {
+    this.http.get<SalesOrder[]>(SALESORDER_SERVICE).subscribe(
+      (data) => {
+        console.log(data);
+        this.orders = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  openDialog(): void {
+    this.displayDialog = true;
+  }
   onNoClick(): void {
-    this.dialogRef.close();
+    this.displayDialog = false;
   }
   onAddItemClick(): void {
     console.log(this.orderLineItem);
@@ -113,12 +98,13 @@ export class SalesOrderDialog implements OnInit {
     this.http.post(SALESORDER_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
       (data) => {
         console.log(data);
-        this.dialogRef.close();
+        this.data = new SalesOrder();
+        this.displayDialog = false;
       },
       (error) => {
         console.log(error);
       }
     );
   }
-
 }
+

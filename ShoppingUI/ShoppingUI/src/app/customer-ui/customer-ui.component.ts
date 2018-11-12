@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { PROXY_SERVER } from '../app.component';
 
 export class Customer {
@@ -18,10 +17,15 @@ export const CUSTOMER_SERVICE: string = PROXY_SERVER + "/customersApi/customers/
   styleUrls: ['./customer-ui.component.css']
 })
 export class CustomerUIComponent implements OnInit {
-
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email'];
-  dataSource = [];
-  constructor(private http: HttpClient, public dialog: MatDialog) { }
+  displayDialog: boolean = false;
+  data: Customer = new Customer();
+  displayedColumns: any[] = [
+    { field: 'id', header: 'Customer Id' },
+    { field: 'firstName', header: 'First Name' },
+    { field: 'lastName', header: 'Last Name' },
+    { field: 'email', header: 'Email' }];
+  customers = [];
+  constructor(private http: HttpClient) { }
   ngOnInit() {
     this.retrieveCustomers();
   }
@@ -30,7 +34,7 @@ export class CustomerUIComponent implements OnInit {
     this.http.get<Customer[]>(CUSTOMER_SERVICE).subscribe(
       (data) => {
         console.log(data);
-        this.dataSource = data;
+        this.customers = data;
       },
       (error) => {
         console.log(error);
@@ -39,31 +43,10 @@ export class CustomerUIComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(CustomerDialog, {
-      width: '400px',
-      data: new Customer()
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.retrieveCustomers();
-    });
+    this.displayDialog = true;
   }
-}
-
-@Component({
-  selector: 'dialog-customer',
-  templateUrl: './customer-dialog-ui.component.html',
-})
-export class CustomerDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<CustomerDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Customer,
-    private http: HttpClient) { }
-
   onNoClick(): void {
-    this.dialogRef.close();
+    this.displayDialog = false;
   }
   onOkClick(): void {
     this.data.id = 0;
@@ -74,7 +57,8 @@ export class CustomerDialog {
     this.http.post(CUSTOMER_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
       (data) => {
         console.log(data);
-        this.dialogRef.close();
+        this.displayDialog = false;
+        data = new Customer();
       },
       (error) => {
         console.log(error);

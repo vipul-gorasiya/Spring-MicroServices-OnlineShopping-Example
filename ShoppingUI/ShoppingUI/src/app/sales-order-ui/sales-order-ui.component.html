@@ -1,35 +1,37 @@
 <div>
-  <button mat-raised-button (click)="openDialog()">Add Order</button>
-</div>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> Id. </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-  </ng-container>
-
-  <!-- <ng-container matColumnDef="orderDate">
-    <th mat-header-cell *matHeaderCellDef> Date </th>
-    <td mat-cell *matCellDef="let element"> {{element.date | date:"MM/dd/yy"}} </td>
-  </ng-container> -->
-
-   <ng-container matColumnDef="orderDesc">
-    <th mat-header-cell *matHeaderCellDef> Description </th>
-    <td mat-cell *matCellDef="let element"> {{element.orderDesc}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="custId">
-    <th mat-header-cell *matHeaderCellDef> Customer </th>
-    <td mat-cell *matCellDef="let element"> {{element.custId}} </td>
-  </ng-container>
-  
-  <ng-container matColumnDef="count">
-      <th mat-header-cell *matHeaderCellDef> Item Count </th>
-      <td mat-cell *matCellDef="let element"> {{element.orderLineItems.length}} </td>
-    </ng-container>
-  
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <button type="button" pButton (click)="openDialog()" label="Add Order"></button>
+  </div>
+  <p-table [columns]="displayedColumns" [value]="orders">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          {{rowData[col.field]}}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-dialog header="Add Customer" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200"
+    [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <span>
+      <h3 class="first">Date</h3>
+      <input id="input" type="text" size="30" pInputText [(ngModel)]="data.orderDate">
+      <h3 class="first">Description</h3>
+      <input id="input" type="text" size="30" pInputText [(ngModel)]="data.orderDesc">
+      <h3 class="first">Price</h3>
+      <input id="input" type="text" size="30" pInputText [(ngModel)]="data.price">
+      <h3 class="first">Customer</h3>
+      <p-autoComplete [(ngModel)]="data.custId" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+      <input id="input" type="text" size="30" pInputText [(ngModel)]="">
+    </span>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="onOkClick()" label="Add"></button>
+      <button type="button" pButton icon="pi pi-close" (click)="onNoClick()" label="Cancel" class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>

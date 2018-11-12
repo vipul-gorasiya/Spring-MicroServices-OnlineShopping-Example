@@ -3,27 +3,28 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule, MatDialogModule, MatDialogRef, MatInputModule, MatButtonModule, MatSelectModule, MatListModule } from '@angular/material'
 import { HttpClientModule } from '@angular/common/http';
 import { UIHeaderComponent } from './uiheader/uiheader.component';
-import { CustomerUIComponent, CustomerDialog } from './customer-ui/customer-ui.component';
+import { CustomerUIComponent } from './customer-ui/customer-ui.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { WelcomeUIComponent } from './welcome-ui/welcome-ui.component';
-import { ItemUIComponent, ItemDialog } from './item-ui/item-ui.component';
-import { SalesOrderUIComponent, SalesOrderDialog } from './sales-order-ui/sales-order-ui.component';
+import { ItemUIComponent } from './item-ui/item-ui.component';
+import { SalesOrderUIComponent } from './sales-order-ui/sales-order-ui.component';
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
     AppComponent,
     UIHeaderComponent,
     CustomerUIComponent,
-    CustomerDialog,
     WelcomeUIComponent,
     ItemUIComponent,
-    ItemDialog,
-    SalesOrderUIComponent,
-    SalesOrderDialog
+    SalesOrderUIComponent
   ],
   imports: [
     BrowserModule,
@@ -32,14 +33,12 @@ import { SalesOrderUIComponent, SalesOrderDialog } from './sales-order-ui/sales-
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    MatTableModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatInputModule,
-    MatListModule,
+    TableModule,
+    InputTextModule,
+    DialogModule,
+    ButtonModule,
+    AutoCompleteModule,
   ],
-  entryComponents:[CustomerDialog,ItemDialog,SalesOrderDialog],
   providers: [],
   bootstrap: [AppComponent]
 })

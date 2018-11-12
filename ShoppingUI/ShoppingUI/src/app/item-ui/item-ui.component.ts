@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { PROXY_SERVER } from '../app.component';
 
 export class Item {
@@ -10,7 +9,7 @@ export class Item {
   price?: Number;
 }
 
-export const ITEM_SERVICE: string = PROXY_SERVER+"/itemsAPi/items/";
+export const ITEM_SERVICE: string = PROXY_SERVER + "/itemsAPi/items/";
 
 
 @Component({
@@ -19,10 +18,15 @@ export const ITEM_SERVICE: string = PROXY_SERVER+"/itemsAPi/items/";
   styleUrls: ['./item-ui.component.css']
 })
 export class ItemUIComponent implements OnInit {
-
-  displayedColumns: string[] = ['id', 'name', 'description', 'price'];
-  dataSource = [];
-  constructor(private http: HttpClient, public dialog: MatDialog) { }
+  displayDialog: boolean = false;
+  displayedColumns: any[] = [
+    { field: 'id', header: 'Item Id' },
+    { field: 'name', header: 'Item Name' },
+    { field: 'description', header: 'Description' },
+    { field: 'price', header: 'Price' }];
+  items = [];
+  data: Item = new Item();
+  constructor(private http: HttpClient) { }
   ngOnInit() {
     this.retrieveItems();
   }
@@ -31,7 +35,7 @@ export class ItemUIComponent implements OnInit {
     this.http.get<Item[]>(ITEM_SERVICE).subscribe(
       (data) => {
         console.log(data);
-        this.dataSource = data;
+        this.items = data;
       },
       (error) => {
         console.log(error);
@@ -40,31 +44,11 @@ export class ItemUIComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(ItemDialog, {
-      width: '400px',
-      data: new Item()
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.retrieveItems();
-    });
+    this.displayDialog = true;
   }
-}
-
-@Component({
-  selector: 'dialog-item',
-  templateUrl: './item-dialog-ui.component.html',
-})
-export class ItemDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<ItemDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Item,
-    private http: HttpClient) { }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.displayDialog = false;
   }
   onOkClick(): void {
     this.data.id = 0;
@@ -75,12 +59,13 @@ export class ItemDialog {
     this.http.post(ITEM_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
       (data) => {
         console.log(data);
-        this.dialogRef.close();
+        this.data = new Item();
+        this.displayDialog = false;
+        this.retrieveItems();
       },
       (error) => {
         console.log(error);
       }
     );
   }
-
 }
