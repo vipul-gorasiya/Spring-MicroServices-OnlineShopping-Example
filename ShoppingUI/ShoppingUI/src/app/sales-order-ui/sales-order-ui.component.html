@@ -1,7 +1,8 @@
 <div>
   <button type="button" pButton (click)="openDialog()" label="Add Order"></button>
 </div>
-<p-table [columns]="displayedColumns" [value]="orders">
+<p-table [columns]="displayedColumns" [value]="orders" selectionMode="single" [(selection)]="data" (onRowSelect)="onRowSelect($event)"
+  [paginator]="true" [rows]="15">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns">
@@ -10,14 +11,14 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
-    <tr>
+    <tr [pSelectableRow]="rowData">
       <td *ngFor="let col of columns">
         {{rowData[col.field]}}
       </td>
     </tr>
   </ng-template>
 </p-table>
-<p-dialog header="Add Customer" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="550" [minWidth]="200"
+<p-dialog header="Order Details" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="550" [minWidth]="200"
   [minY]="70" [maximizable]="true" [baseZIndex]="10000">
   <span>
     <h3 class="first">Description</h3>
@@ -34,12 +35,12 @@
     <p-panel header="Line Items">
       <h3 class="first">Item</h3>
       <p-autoComplete [(ngModel)]="orderLineItem.item" [suggestions]="itemList" (completeMethod)="searchItem($event)" field="name">
-          <ng-template let-item pTemplate="item">
-              <div class="ui-helper-clearfix">
-                <!--<div style="font-size:18px;float:right;margin:10px 10px 0 0">-->
-                <div style="font-size:12px;">{{item.name}}</div>
-              </div>
-            </ng-template>
+        <ng-template let-item pTemplate="item">
+          <div class="ui-helper-clearfix">
+            <!--<div style="font-size:18px;float:right;margin:10px 10px 0 0">-->
+            <div style="font-size:12px;">{{item.name}}</div>
+          </div>
+        </ng-template>
       </p-autoComplete>
       <h3 class="first">Quantity</h3>
       <input id="input" type="text" size="30" pInputText [(ngModel)]="orderLineItem.itemQuantity">
@@ -65,7 +66,8 @@
     <input id="disabled-input" type="text" pInputText [disabled]="disabled" [(ngModel)]="data.totalPrice" />
   </span>
   <p-footer>
-    <button type="button" pButton icon="pi pi-check" (click)="onOkClick()" label="Add"></button>
+    <button type="button" pButton icon="pi pi-check" (click)="onOkClick()" label="Add" *ngIf="newOrder"></button>
+    <button type="button" pButton icon="pi pi-check" (click)="onSaveClick()" label="Update" *ngIf="!newOrder"></button>
     <button type="button" pButton icon="pi pi-close" (click)="onNoClick()" label="Cancel" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>

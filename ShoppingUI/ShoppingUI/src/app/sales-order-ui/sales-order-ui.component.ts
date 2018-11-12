@@ -44,6 +44,7 @@ export class SalesOrderUIComponent implements OnInit {
   lineItemColumns: any[] = [
     { field: 'itemName', header: 'Item Name' },
     { field: 'itemQuantity', header: 'Quantity' }];
+  newOrder: boolean = false;
 
   constructor(private http: HttpClient) { }
 
@@ -88,7 +89,9 @@ export class SalesOrderUIComponent implements OnInit {
   }
 
   openDialog(): void {
+    this.data = new SalesOrder();
     this.displayDialog = true;
+    this.newOrder = true;
   }
   onNoClick(): void {
     this.displayDialog = false;
@@ -97,7 +100,7 @@ export class SalesOrderUIComponent implements OnInit {
   onAddItemClick(): void {
     console.log(this.orderLineItem);
     this.data.totalPrice = this.data.totalPrice + (this.orderLineItem.itemQuantity * this.orderLineItem.item.price);
-    this.orderLineItem.itemName=this.orderLineItem.item.name;
+    this.orderLineItem.itemName = this.orderLineItem.item.name;
     this.data.custId = this.data.customer.id;
     this.data.orderLineItems.push(this.orderLineItem);
     this.orderLineItem = new OrderLineItem();
@@ -119,5 +122,13 @@ export class SalesOrderUIComponent implements OnInit {
       }
     );
   }
+
+  onRowSelect(event) {
+    console.log(event.data);
+    this.newOrder = false;
+    this.data = event.data;
+    this.displayDialog = true;
+  }
+
 }
 
