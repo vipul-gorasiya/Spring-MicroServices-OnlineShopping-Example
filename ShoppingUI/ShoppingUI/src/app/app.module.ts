@@ -20,6 +20,8 @@ import { PanelModule } from 'primeng/panel';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { OrganizationChartModule } from 'primeng/organizationchart';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { MessageService } from 'primeng/components/common/messageservice';
     PanelModule,
     MegaMenuModule,
     ToastModule,
+    OrganizationChartModule,
+    TooltipModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

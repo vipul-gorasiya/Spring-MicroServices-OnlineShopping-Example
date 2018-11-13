@@ -1,3 +1,12 @@
-<p>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div style="text-align: center;margin-top: 10px;">
   <b>Welcome! Please navigate to desired module through menu!</b>
-</p>
+</div>
+<div style="text-align: center; margin-top: 20px;">
+  <h3>Technology details</h3>
+  <p-organizationChart [value]="data" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)">
+    <ng-template let-node >
+      {{node.label}}
+    </ng-template>
+  </p-organizationChart>
+</div>

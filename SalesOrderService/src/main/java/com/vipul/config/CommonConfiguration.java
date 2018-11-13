@@ -13,6 +13,7 @@ import com.vipul.messagelistener.CustomerMessageListener;
 
 @Configuration
 public class CommonConfiguration {
+		
 	@Bean
 	public ModelMapper modelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
@@ -32,4 +33,5 @@ public class CommonConfiguration {
 		});
 		return modelMapper;
 	}
+	
 }
