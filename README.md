@@ -76,7 +76,7 @@
     4. Run 'ng serve --open'. Application will open up in a browser.
 
 - **Shopping UI Url:**
-  - Angular will run on default Port(4200). So, UI Application can be accessed using: 'http://localhost:4200/'
+  - UI application will run on default Port(4200). So, UI Application can be accessed using: 'http://localhost:4200/'
 - **Customer Service can be tested:**
     - Either using API Gateway: http://localhost:5555/customersApi/swagger-ui.html
     - Or using direct URL: http://localhost:5051/swagger-ui.html
