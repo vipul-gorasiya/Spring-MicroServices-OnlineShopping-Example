@@ -33,7 +33,8 @@ export class SalesOrderUIComponent implements OnInit {
   itemList: Item[];
   data: SalesOrder = new SalesOrder();
   lineItemColumns: any[] = [
-    { field: 'itemName', header: 'Item Name' },
+    { field: 'itemName', header: 'Name' },
+    { field: 'itemprice', header: 'Price' },
     { field: 'itemQuantity', header: 'Quantity' }];
   newOrder: boolean = false;
 
@@ -151,7 +152,7 @@ export class SalesOrderUIComponent implements OnInit {
     console.log(event.data);
     this.newOrder = false;
     this.data = event.data;
-    this.http.get<Customer>(CUSTOMER_SERVICE+this.data.custId).subscribe(
+    this.http.get<Customer>(CUSTOMER_SERVICE + this.data.custId).subscribe(
       (response) => {
         console.log(response);
         this.data.customer = response;
@@ -160,7 +161,22 @@ export class SalesOrderUIComponent implements OnInit {
         console.log(error);
       }
     );
+    for (let index = 0; index < this.data.orderLineItems.length; index++) {
+      this.getItemForOrderLine(this.data.orderLineItems[index]);
+    }
     this.displayDialog = true;
+  }
+
+  getItemForOrderLine(orderLine: OrderLineItem) {
+    this.http.get<Item>(ITEM_SERVICE + orderLine.itemName).subscribe(
+      (response) => {
+        console.log(response);
+        orderLine.item = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
 }

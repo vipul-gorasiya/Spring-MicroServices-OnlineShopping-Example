@@ -25,7 +25,8 @@
     <h3 class="first">Description</h3>
     <input id="input" type="text" size="30" pInputText [(ngModel)]="data.orderDesc">
     <h3 class="first">Customer</h3>
-    <p-autoComplete [(ngModel)]="data.customer" [suggestions]="customerList" (completeMethod)="searchCustomer($event)" field="firstName" [disabled]="!newOrder">
+    <p-autoComplete [(ngModel)]="data.customer" [suggestions]="customerList" (completeMethod)="searchCustomer($event)" field="firstName"
+      *ngIf="newOrder">
       <ng-template let-customer pTemplate="item">
         <div class="ui-helper-clearfix">
           <!--<div style="font-size:18px;float:right;margin:10px 10px 0 0">-->
@@ -33,6 +34,7 @@
         </div>
       </ng-template>
     </p-autoComplete>
+    <span *ngIf="!newOrder && data.customer !=null">{{data.customer.lastName}} , {{data.customer.firstName}}</span>
     <p-panel header="Line Items">
       <h3 class="first">Item</h3>
       <p-autoComplete [(ngModel)]="orderLineItem.item" [suggestions]="itemList" (completeMethod)="searchItem($event)" field="name">
@@ -54,10 +56,15 @@
             </th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
           <tr>
             <td *ngFor="let col of columns">
-              {{rowData[col.field]}}
+              <span *ngIf="col.field == 'itemprice' && rowData.item != null">
+                {{rowData.item.price}}
+              </span>
+              <span *ngIf="col.field != 'itemprice'">
+                {{rowData[col.field]}}
+              </span>
             </td>
           </tr>
         </ng-template>

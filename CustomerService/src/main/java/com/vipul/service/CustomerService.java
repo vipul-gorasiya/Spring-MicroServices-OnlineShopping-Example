@@ -1,6 +1,7 @@
 package com.vipul.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -40,7 +41,11 @@ public class CustomerService {
 	}
 
 	public CustomerDTO get(long customerId) {
-		return modelMapper.map(customerRepository.findById(customerId), CustomerDTO.class);
+		Optional<Customer> customerResult = customerRepository.findById(customerId);
+		if(!customerResult.isPresent()){
+			return null;
+		}
+		return modelMapper.map(customerResult.get(), CustomerDTO.class);
 	}
 
 	public void delete(long customerId) {

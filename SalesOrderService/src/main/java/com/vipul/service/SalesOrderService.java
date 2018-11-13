@@ -1,6 +1,7 @@
 package com.vipul.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.mail.Message;
@@ -62,7 +63,11 @@ public class SalesOrderService {
 	}
 
 	public SalesOrderDTO get(long orderId) {
-		return modelMapper.map(salesOrderRepository.findById(orderId), SalesOrderDTO.class);
+		Optional<SalesOrder> orderResult = salesOrderRepository.findById(orderId);
+		if (!orderResult.isPresent()) {
+			return null;
+		}
+		return modelMapper.map(orderResult.get(), SalesOrderDTO.class);
 	}
 
 	public void delete(long orderId) {
