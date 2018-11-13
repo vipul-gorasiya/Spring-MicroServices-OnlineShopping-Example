@@ -75,9 +75,20 @@
     3. Run 'npm install'
     4. Run 'ng serve --open'. Application will open up in a browser.
 
-**Shopping UI Url:**
+- **Shopping UI Url:**
   - Angular will run on default Port(4200). So, UI Application can be accessed using: 'http://localhost:4200/'
-**Customer Service testing using swagger-ui:**
-  - Customer Service can be tested:
-    -- Either using API Gateway: http://localhost:5555/customersApi/swagger-ui.html
-    -- Or using direct URL: http://localhost:5051/swagger-ui.html
+- **Customer Service can be tested:**
+    - Either using API Gateway: http://localhost:5555/customersApi/swagger-ui.html
+    - Or using direct URL: http://localhost:5051/swagger-ui.html
+	- Or in Angular UI
+	- Customer Database console: http://localhost:5051/h2-console/ - 'jdbc:h2:mem:customerdb'
+- **Item Service can be tested:**
+    - Either using API Gateway: http://localhost:5555/itemsApi/swagger-ui.html
+    - Or using direct URL: http://localhost:5052/swagger-ui.html
+	- Or in Angular UI
+	- Item Database console: http://localhost:5052/h2-console/ - 'jdbc:h2:mem:itemdb'
+- **Sales Order Service can be tested:**
+    - Either using API Gateway: http://localhost:5555/itemsApi/swagger-ui.html
+    - Or using direct URL: http://localhost:5053/swagger-ui.html
+	- Or in Angular UI
+	- Sales order Database console: http://localhost:5053/h2-console/ - 'jdbc:h2:mem:salesorderdb'
