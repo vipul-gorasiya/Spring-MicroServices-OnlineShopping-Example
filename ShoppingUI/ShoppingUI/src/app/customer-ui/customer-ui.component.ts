@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Customer } from './customer';
 import { CUSTOMER_SERVICE } from '../app.constants';
+import { Message } from 'primeng/api';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,6 +25,7 @@ export class CustomerUIComponent implements OnInit {
   data: Customer = new Customer();
   customers = [];
   newCustomer: boolean = false;
+  msgs: Message[] = [];
   displayedColumns: any[] = [
     { field: 'id', header: 'Customer Id' },
     { field: 'firstName', header: 'First Name' },
@@ -64,6 +66,9 @@ export class CustomerUIComponent implements OnInit {
   onOkClick(): void {
     this.data.id = 0;
     console.log(this.data);
+    if(!this.validateCustomer(this.data)){
+      return;
+    }
     this.http.post(CUSTOMER_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
       (data) => {
         console.log(data);
@@ -82,7 +87,10 @@ export class CustomerUIComponent implements OnInit {
   // Method to handle Save button click in edit customer dialog
   onSaveClick(): void {
     console.log(this.data);
-    this.http.put(CUSTOMER_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
+    if(!this.validateCustomer(this.data)){
+      return;
+    }
+    this.http.put(CUSTOMER_SERVICE+this.data.id, JSON.stringify(this.data), httpOptions).subscribe(
       (data) => {
         console.log(data);
         this.displayDialog = false;
@@ -95,6 +103,24 @@ export class CustomerUIComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Customer not saved.' });
       }
     );
+  }
+
+  validateCustomer(customer: Customer) : boolean {
+    let retVal: boolean = true;
+    this.msgs = [];    
+    if(customer.firstName == null || customer.firstName.trim() == ''){
+      this.msgs.push({ severity: 'error', summary: '', detail: 'First Name is required.' });
+      retVal = false;
+    }
+    if(customer.lastName == null || customer.lastName.trim() == ''){
+      this.msgs.push({ severity: 'error', summary: '', detail: 'Last Name is required.' });
+      retVal = false;
+    }
+    if(customer.email == null || customer.email.trim() == ''){
+      this.msgs.push({ severity: 'error', summary: '', detail: 'Email is required.' });
+      retVal = false;
+    }
+    return retVal;
   }
 
   // Method to handle on click of row

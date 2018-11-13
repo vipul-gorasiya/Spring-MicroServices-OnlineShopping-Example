@@ -1,5 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-html, body { height: 100%; }
+html, body { 
+    height: 100%; 
+    background-color: beige;
+}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+body .ui-megamenu{
+    background-color:linen !important;
+    margin-bottom: 10px;
+}
+body .ui-menuitem{
+    border-right: 1px solid indianred;
+    border-radius: 0px;
+}
