@@ -38,7 +38,7 @@ export class WelcomeUIComponent implements OnInit {
                 },{
                   label: 'Item MicroService (Spring-Cloud)',
                   expanded: true,
-                  data:`Deployed on Jersy, Item module specific microservice developed is using SpringBoot, SpringData,Hibernate, H2 and Eureka Discory.`
+                  data:`Deployed on Jersy, Item module specific microservice is developed using SpringBoot, SpringData,Hibernate, H2 and Eureka Discory.`
                 },{
                   label: 'Sales Order MicroService (Spring-Cloud)',
                   expanded: true,
