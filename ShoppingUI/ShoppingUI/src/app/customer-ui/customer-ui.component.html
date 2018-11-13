@@ -1,7 +1,10 @@
 <div>
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>
   <button type="button" pButton (click)="openDialog()" label="Add Customer"></button>
 </div>
-<p-table [columns]="displayedColumns" [value]="customers">
+<!-- Table to display Customers-->
+<p-table [columns]="displayedColumns" [value]="customers" selectionMode="single" [(selection)]="data" (onRowSelect)="onRowSelect($event)"
+  [paginator]="true" [rows]="15">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns">
@@ -10,25 +13,28 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
-    <tr>
+    <tr [pSelectableRow]="rowData">
       <td *ngFor="let col of columns">
         {{rowData[col.field]}}
       </td>
     </tr>
   </ng-template>
 </p-table>
-<p-dialog header="Add Customer" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200"
+
+<!-- Dialog window to add Customer-->
+<p-dialog header="Customer Details" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200"
   [minY]="70" [maximizable]="true" [baseZIndex]="10000">
   <span>
     <h3 class="first">First Name</h3>
-    <input id="input" type="text" size="30" pInputText [(ngModel)]="data.firstName">
+    <input id="input" type="text" size="30" pInputText [(ngModel)]="data.firstName" [disabled]="!newCustomer">
     <h3 class="first">Fist Name</h3>
-    <input id="input" type="text" size="30" pInputText [(ngModel)]="data.lastName">
+    <input id="input" type="text" size="30" pInputText [(ngModel)]="data.lastName" [disabled]="!newCustomer">
     <h3 class="first">Email Name</h3>
     <input id="input" type="text" size="30" pInputText [(ngModel)]="data.email">
   </span>
   <p-footer>
-    <button type="button" pButton icon="pi pi-check" (click)="onOkClick()" label="Add"></button>
+    <button type="button" pButton icon="pi pi-check" (click)="onOkClick()" label="Add" *ngIf="newCustomer"></button>
+    <button type="button" pButton icon="pi pi-check" (click)="onSaveClick()" label="Save" *ngIf="!newCustomer"></button>
     <button type="button" pButton icon="pi pi-close" (click)="onNoClick()" label="Cancel" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>

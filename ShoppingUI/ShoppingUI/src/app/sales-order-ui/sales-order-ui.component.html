@@ -1,4 +1,5 @@
 <div>
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>
   <button type="button" pButton (click)="openDialog()" label="Add Order"></button>
 </div>
 <p-table [columns]="displayedColumns" [value]="orders" selectionMode="single" [(selection)]="data" (onRowSelect)="onRowSelect($event)"
@@ -18,13 +19,13 @@
     </tr>
   </ng-template>
 </p-table>
-<p-dialog header="Order Details" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="550" [minWidth]="200"
+<p-dialog header="Order Details" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="750" [minWidth]="200"
   [minY]="70" [maximizable]="true" [baseZIndex]="10000">
   <span>
     <h3 class="first">Description</h3>
     <input id="input" type="text" size="30" pInputText [(ngModel)]="data.orderDesc">
     <h3 class="first">Customer</h3>
-    <p-autoComplete [(ngModel)]="data.customer" [suggestions]="customerList" (completeMethod)="searchCustomer($event)" field="firstName">
+    <p-autoComplete [(ngModel)]="data.customer" [suggestions]="customerList" (completeMethod)="searchCustomer($event)" field="firstName" [disabled]="!newOrder">
       <ng-template let-customer pTemplate="item">
         <div class="ui-helper-clearfix">
           <!--<div style="font-size:18px;float:right;margin:10px 10px 0 0">-->

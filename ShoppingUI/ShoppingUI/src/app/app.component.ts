@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/components/common/menuitem';
 
-export const PROXY_SERVER = "http://localhost:5555"
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

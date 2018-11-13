@@ -1,27 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PROXY_SERVER } from '../app.component';
-import { Customer, CUSTOMER_SERVICE } from '../customer-ui/customer-ui.component';
-import { Item, ITEM_SERVICE } from '../item-ui/item-ui.component';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { Customer } from '../customer-ui/customer';
+import { Item } from '../item-ui/item';
+import { CUSTOMER_SERVICE, ITEM_SERVICE, SALESORDER_SERVICE } from '../app.constants';
+import { OrderLineItem } from './orderlineitem';
+import { SalesOrder } from './salesorder';
 
-export class SalesOrder {
-  id?: number;
-  orderDesc?: string;
-  totalPrice?: number = 0;
-  orderLineItems: OrderLineItem[] = [];
-  customer: Customer;
-  orderDate: Date = new Date();
-  custId: number;
-}
-
-export class OrderLineItem {
-  id?: number;
-  itemQuantity?: number;
-  item?: Item;
-  itemName?: string;
-}
-
-export const SALESORDER_SERVICE: string = PROXY_SERVER + "/salesApi/orders/";
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Component({
   selector: 'app-sales-order-ui',
@@ -30,6 +18,9 @@ export const SALESORDER_SERVICE: string = PROXY_SERVER + "/salesApi/orders/";
 })
 export class SalesOrderUIComponent implements OnInit {
 
+  constructor(private http: HttpClient, private messageService: MessageService) { }
+
+  // Variable declaration
   displayedColumns: any[] = [
     { field: 'id', header: 'Order Id' },
     { field: 'orderDesc', header: 'Description' }];
@@ -46,12 +37,13 @@ export class SalesOrderUIComponent implements OnInit {
     { field: 'itemQuantity', header: 'Quantity' }];
   newOrder: boolean = false;
 
-  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    // On initialization retrieve orders
     this.retrieveSalesOrders();
   }
 
+  // Retrieve customers for autocomplete
   searchCustomer(event) {
     console.log(event.query)
     this.http.get<Customer[]>(CUSTOMER_SERVICE).subscribe(
@@ -61,9 +53,12 @@ export class SalesOrderUIComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.messageService.add({ severity: 'warn', summary: 'Error Message', detail: 'Orders could not be retrieved.' });
       }
     );
   }
+
+  // Retrieve items for autocomplete
   searchItem(event) {
     console.log(event.query)
     this.http.get<Item[]>(ITEM_SERVICE).subscribe(
@@ -76,6 +71,8 @@ export class SalesOrderUIComponent implements OnInit {
       }
     );
   }
+
+  // Method to retrieve Sales orders
   retrieveSalesOrders() {
     this.http.get<SalesOrder[]>(SALESORDER_SERVICE).subscribe(
       (data) => {
@@ -88,46 +85,81 @@ export class SalesOrderUIComponent implements OnInit {
     );
   }
 
+  // Method to open dialog for add order
   openDialog(): void {
     this.data = new SalesOrder();
     this.displayDialog = true;
     this.newOrder = true;
   }
+
+  // Method to handle Cancel button click in dialog
   onNoClick(): void {
     this.displayDialog = false;
     this.data = new SalesOrder();
   }
+
+  // Method to add item when Add Item button is clicked
   onAddItemClick(): void {
     console.log(this.orderLineItem);
     this.data.totalPrice = this.data.totalPrice + (this.orderLineItem.itemQuantity * this.orderLineItem.item.price);
     this.orderLineItem.itemName = this.orderLineItem.item.name;
-    this.data.custId = this.data.customer.id;
     this.data.orderLineItems.push(this.orderLineItem);
     this.orderLineItem = new OrderLineItem();
   }
+
+  // Method to handle Add button click on add order dialog
   onOkClick(): void {
     this.data.id = 0;
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
+    this.data.custId = this.data.customer.id;
     console.log(this.data);
     this.http.post(SALESORDER_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
       (data) => {
         console.log(data);
         this.data = new SalesOrder();
         this.displayDialog = false;
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Order added successfully.' });
         this.retrieveSalesOrders();
+      },
+      (error) => {
+        console.log(error);
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Order not added.' });
+      }
+    );
+  }
+
+  // Method to handle save button click on update order dialog
+  onSaveClick(): void {
+    console.log(this.data);
+    this.data.custId = this.data.customer.id;
+    this.http.put(SALESORDER_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
+      (data) => {
+        console.log(data);
+        this.data = new SalesOrder();
+        this.displayDialog = false;
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Order saved successfully.' });
+        this.retrieveSalesOrders();
+      },
+      (error) => {
+        console.log(error);
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Order not saved.' });
+      }
+    );
+  }
+
+  // Method to handle row click or select
+  onRowSelect(event) {
+    console.log(event.data);
+    this.newOrder = false;
+    this.data = event.data;
+    this.http.get<Customer>(CUSTOMER_SERVICE+this.data.custId).subscribe(
+      (response) => {
+        console.log(response);
+        this.data.customer = response;
       },
       (error) => {
         console.log(error);
       }
     );
-  }
-
-  onRowSelect(event) {
-    console.log(event.data);
-    this.newOrder = false;
-    this.data = event.data;
     this.displayDialog = true;
   }
 

@@ -18,6 +18,8 @@ import { ButtonModule } from 'primeng/button';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PanelModule } from 'primeng/panel';
 import { MegaMenuModule } from 'primeng/megamenu';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @NgModule({
   declarations: [
@@ -42,8 +44,9 @@ import { MegaMenuModule } from 'primeng/megamenu';
     AutoCompleteModule,
     PanelModule,
     MegaMenuModule,
+    ToastModule,
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

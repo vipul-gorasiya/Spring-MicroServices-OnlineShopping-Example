@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,20 +40,20 @@ public class SalesOrderResource {
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/{id}")
-	public SalesOrderDTO get(long id) {
+	public SalesOrderDTO get(@PathVariable long id) {
 		return salesOrderService.get(id);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping("/{id}")
-	public SalesOrderDTO put(long id, SalesOrderDTO salesOrderDTO) {
+	public SalesOrderDTO put(@PathVariable long id, @RequestBody SalesOrderDTO salesOrderDTO) {
 		salesOrderDTO.setId(id);
 		return salesOrderService.save(salesOrderDTO);
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	public void delete(long id) {
+	public void delete(@PathVariable long id) {
 		salesOrderService.delete(id);
 	}
 
