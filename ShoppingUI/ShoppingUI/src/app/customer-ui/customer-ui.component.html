@@ -25,7 +25,6 @@
 <p-dialog header="Customer Details" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200"
   [minY]="70" [maximizable]="true" [baseZIndex]="10000">
 <form #customerForm="ngForm">
-  <p-messages [(value)]="msgs"></p-messages>
   <div>
     <h3 class="first">First Name</h3>
     <input id="input" type="text" size="30" pInputText [(ngModel)]="data.firstName" [disabled]="!newCustomer" name="firstName" required >

@@ -6,7 +6,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Customer } from './customer';
 import { CUSTOMER_SERVICE } from '../app.constants';
-import { Message } from 'primeng/api';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -25,7 +24,6 @@ export class CustomerUIComponent implements OnInit {
   data: Customer = new Customer();
   customers = [];
   newCustomer: boolean = false;
-  msgs: Message[] = [];
   displayedColumns: any[] = [
     { field: 'id', header: 'Customer Id' },
     { field: 'firstName', header: 'First Name' },
@@ -66,7 +64,7 @@ export class CustomerUIComponent implements OnInit {
   onOkClick(): void {
     this.data.id = 0;
     console.log(this.data);
-    if(!this.validateCustomer(this.data)){
+    if (!this.validateCustomer(this.data)) {
       return;
     }
     this.http.post(CUSTOMER_SERVICE, JSON.stringify(this.data), httpOptions).subscribe(
@@ -74,12 +72,12 @@ export class CustomerUIComponent implements OnInit {
         console.log(data);
         this.displayDialog = false;
         data = new Customer();
-        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Customer added successfully.' });
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Customer added successfully.', life: 2000 });
         this.retrieveCustomers();
       },
       (error) => {
         console.log(error);
-        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Customer not added.' });
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Customer not added.', life: 2000 });
       }
     );
   }
@@ -87,37 +85,36 @@ export class CustomerUIComponent implements OnInit {
   // Method to handle Save button click in edit customer dialog
   onSaveClick(): void {
     console.log(this.data);
-    if(!this.validateCustomer(this.data)){
+    if (!this.validateCustomer(this.data)) {
       return;
     }
-    this.http.put(CUSTOMER_SERVICE+this.data.id, JSON.stringify(this.data), httpOptions).subscribe(
+    this.http.put(CUSTOMER_SERVICE + this.data.id, JSON.stringify(this.data), httpOptions).subscribe(
       (data) => {
         console.log(data);
         this.displayDialog = false;
         data = new Customer();
-        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Customer saved successfully.' });
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Customer saved successfully.', life: 2000 });
         this.retrieveCustomers();
       },
       (error) => {
         console.log(error);
-        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Customer not saved.' });
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Customer not saved.', life: 2000 });
       }
     );
   }
 
-  validateCustomer(customer: Customer) : boolean {
+  validateCustomer(customer: Customer): boolean {
     let retVal: boolean = true;
-    this.msgs = [];    
-    if(customer.firstName == null || customer.firstName.trim() == ''){
-      this.msgs.push({ severity: 'error', summary: '', detail: 'First Name is required.' });
+    if (customer.firstName == null || customer.firstName.trim() == '') {
+      this.messageService.add({ severity: 'error', summary: '', detail: 'First Name is required.' });
       retVal = false;
     }
-    if(customer.lastName == null || customer.lastName.trim() == ''){
-      this.msgs.push({ severity: 'error', summary: '', detail: 'Last Name is required.' });
+    if (customer.lastName == null || customer.lastName.trim() == '') {
+      this.messageService.add({ severity: 'error', summary: '', detail: 'Last Name is required.' });
       retVal = false;
     }
-    if(customer.email == null || customer.email.trim() == ''){
-      this.msgs.push({ severity: 'error', summary: '', detail: 'Email is required.' });
+    if (customer.email == null || customer.email.trim() == '') {
+      this.messageService.add({ severity: 'error', summary: '', detail: 'Email is required.' });
       retVal = false;
     }
     return retVal;
