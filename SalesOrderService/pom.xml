@@ -67,7 +67,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
-    		<artifactId>Gson</artifactId>
+    		<artifactId>gson</artifactId>
     		<version>${gson.version}</version>
 		</dependency>
 		<dependency>
